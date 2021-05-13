@@ -1,6 +1,6 @@
 # FruitSyntheticDataset
 
-This code is accompanied by a tutorial at https://medium.com/p/dab5728f6411/edit
+This code is accompanied by a tutorial at https://amizorach.medium.com/creating-synthetic-data-for-machine-learning-dab5728f6411
 
 For the already created Dataset simply use the files in the dataset template_folder
 you can find a colab notebook in the notebook folder
