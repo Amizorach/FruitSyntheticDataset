@@ -4,21 +4,16 @@ from PIL import ImageFilter
 from PIL import ImageColor
 from pascal import PascalVOC, PascalObject, BndBox, size_block
 from pathlib import Path
-import cv2
 import numpy as np
 import os
 import getopt, sys
 import argparse
-
-# bg_colors = []
-# fg_colors = []
 
 img_path = 'train/images'
 ann_path = 'train/ann'
 width = 250
 height = 250
 
-# pobjs = []
 def prepare_colors():
     txt_leaves = ['#608d2a', '#a8b146', '#ccf0bc', '#aace57', '#2e5d0b', '#071d06', '#71a476', '#3a4533', '#759a65', '#25321f', '#59734d', '#90ab64', '#7b8554', '#7b8554', '#4d5430']
     txt_sky = ['#e9e3c3', '#99949e', '#9bb5cf' , '#f6fbfb', '#91959b', '#c0e1f9', '#dd9b98', '#dd9b98', '#deb29f']
@@ -37,11 +32,6 @@ def prepare_colors():
 
     return bg_colors, fg_colors
 
-# def create_images():
-#     im_bg = Image.new('RGBA', (width, height), ImageColor.getrgb('#7FCBFDFF'))
-#     im_fg = Image.new('RGBA', (width, height), (0, 0, 0, 0))
-#     im_oranges = Image.new('RGBA', (width, height), (0, 0, 0, 0))
-#     return im_bg, im_fg, im_oranges
 
 def plot_random_blobs(draw, colors, count, mins, maxs):
     for i in range(count):
@@ -121,21 +111,6 @@ def create_annotation(img, fruit_info, obj_name,
                            objects=pobjs)
     pascal_ann.save(ann_name)
 
-def plot_image(img_name, ann_name):
-    ann = PascalVOC.from_xml(ann_name)
-    img = cv2.imread(img_name)
-    for obj in ann.objects:
-        p1 = (obj.bndbox.xmin, obj.bndbox.ymin)
-        p2 = (obj.bndbox.xmax, obj.bndbox.ymin)
-        p3 = (obj.bndbox.xmax, obj.bndbox.ymax)
-        p4 = (obj.bndbox.xmin, obj.bndbox.ymax)
-        cv2.line(img, p1, p2, color=(0, 255, 0), thickness=1)
-        cv2.line(img, p2, p3, color=(0, 255, 0), thickness=1)
-        cv2.line(img, p3, p4, color=(0, 255, 0), thickness=1)
-        cv2.line(img, p4, p1, color=(0, 255, 0), thickness=1)
-    cv2.imshow("Image", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
 
 
@@ -204,36 +179,31 @@ def main():
         if e.errno != errno.EEXIST:
             print("Cant create directories {} {}".format(img_path, ann_path))
             raise
-    # full_cmd_arguments = sys.argv
-    # argument_list = full_cmd_arguments[1:]
-    # try:
-    #     arguments, values = getopt.getopt(argument_list, short_options, long_options)
-    # except getopt.error as err:
-    #     # Output error, and return with an error code
-    #     print (str(err))
-    #     sys.exit(2)
-    # for current_argument, current_value in arguments:
-    #     if current_argument in ("-s", "--size"):
-    #         width = current_value
-    #         height = current_value
-    #         print ('size set to ({},{})'.format(width, height) )
-    #     elif current_argument in ("-p", "--plot"):
-    #         plot = True
-    #         print ("plot set to True")
-    #     elif current_argument in ("-c", "--count"):
-    #         tot_count = current_value
-    #         print ("count set to {}".format(current_value))
-    #     elif current_argument in ("-d", "--path"):
-    #         path = current_value
-    #         print ("path set to {}".format(current_value))
-    #         img_path = '{}/images'.format(path)
-    #         ann_path = '{}/images'.format(path)
-    #     elif current_argument in ("-a", "--startat"):
-    #         print ("startat set to {}".format(current_value))
-    #         startat = current_value
     create_training_set(tot_count, startat, plot)
+
+
+# you can use this function for plotting bounding boxes on the test images
+# I have commented it out to prevent the need of installing opencv
+# If you want to use it simply uncomment it
+
+# import cv2
+# def plot_image(img_name, ann_name):
+#     ann = PascalVOC.from_xml(ann_name)
+#     img = cv2.imread(img_name)
+#     for obj in ann.objects:
+#         p1 = (obj.bndbox.xmin, obj.bndbox.ymin)
+#         p2 = (obj.bndbox.xmax, obj.bndbox.ymin)
+#         p3 = (obj.bndbox.xmax, obj.bndbox.ymax)
+#         p4 = (obj.bndbox.xmin, obj.bndbox.ymax)
+#         cv2.line(img, p1, p2, color=(0, 255, 0), thickness=1)
+#         cv2.line(img, p2, p3, color=(0, 255, 0), thickness=1)
+#         cv2.line(img, p3, p4, color=(0, 255, 0), thickness=1)
+#         cv2.line(img, p4, p1, color=(0, 255, 0), thickness=1)
+#     cv2.imshow("Image", img)
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
+
 
 
 if __name__ == "__main__":
     main()
-# Output argument-wise
