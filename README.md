@@ -7,13 +7,13 @@ you can find a colab notebook in the notebook folder
 
 Preparations:
 
-Create a virtual enviroment or conda enviroment
+Create a virtual environment or conda environment
 
 pip install -r requirements.txt
 
 -- This should install the required packages for creating the dataset
 
-Unfortunatly I am not able to install pascal-voc  from the pip
+Unfortunately, I am not able to install pascal-voc  from the pip
 You can try running
 pip install pascal-voc
 
@@ -27,7 +27,7 @@ Running
 python fruit_dataset_creator.py -h
 to get the full options for the dataset creator
 
-for example you can run the following
+for example, you can run the following
 
 python fruit_dataset_creator.py -c 10 -s 250
 To create 10 images of 250X250 pixels
